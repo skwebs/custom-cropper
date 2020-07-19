@@ -1,0 +1,70 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.img-container {
+	margin: 0 auto;
+	width: 300px;
+	height: 345px;
+}
+
+
+/* Limit image width to avoid overflow the container */
+
+img {
+	max-width: 100%;
+	/* This rule is very important, please do not ignore this! */
+}
+
+#response {
+	min-width: 280px;
+	margin: 10px auto;
+	padding: 20px;
+}
+
+#response img {
+	width: 100%;
+	border: 2px solid grey;
+	border-radius: 5px;
+}
+
+#cropBtn {
+	margin: 0 40%;
+	padding: 5px 10px;
+	text-align: center;
+}
+
+.processing {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 1200;
+	display: flex;
+	background: #fff;
+}
+
+.processing img {
+	width: ;
+}
+
+.processing p {
+	margin-top: 20px;
+}
+
+file_property span {
+	display: inline-block;
+	white-space: nowrap;
+}
+
+#change_image span {
+	white-space: nowrap;
+	color: #000;
+}
