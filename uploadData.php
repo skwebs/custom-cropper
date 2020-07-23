@@ -9,7 +9,7 @@ if($fileExt=='jpeg'){
 }
 //var_dump($_POST);
 //set cropped image name
-$croppedImageName = $_SESSION['user'].'_profile-image.'.$fileExt; //date("F_d_Y-h:i:s_A").".".$fileExt; //$_POST['fileExt'];
+$croppedImageName = date("F_d_Y-h:i:s_A").".".$fileExt; //$_POST['fileExt'];
 //set folder for store image
 $folder = "./cropped_img/";
 //create directory if not exist
@@ -37,8 +37,8 @@ $image = file_put_contents($imagePath, $data);
 //check image created or, not
 if($image){
 //if image created 
-echo 'Your image saved with name : "'.$croppedImageName.'" in database.'; 
-echo '<img src="'.$imagePath.'?i='.time().'" >';
+//echo $croppedImageName; 
+echo '<img src="'.$imagePath.'" >';
 } else {
 //if image didn't created 
 echo 'image did not create.';

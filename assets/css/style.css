@@ -19,7 +19,7 @@ img {
 }
 
 #response {
-	min-width: 280px;
+	width:300px;
 	margin: 10px auto;
 	padding: 20px;
 }
