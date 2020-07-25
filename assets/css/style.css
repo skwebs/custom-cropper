@@ -12,9 +12,9 @@
 
 
 /* Limit image width to avoid overflow the container */
-
+.img-container
 img {
-	max-width: 100%;
+	width: 100%;
 	/* This rule is very important, please do not ignore this! */
 }
 
@@ -26,8 +26,7 @@ img {
 
 #response img {
 	width: 100%;
-	border: 2px solid grey;
-	border-radius: 5px;
+	border: thin solid #000;
 }
 
 #cropBtn {

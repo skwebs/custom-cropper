@@ -1,7 +1,4 @@
 <?php
-session_start();
-//$_SESSION['user'] ='satish';
-//set india timezone
 date_default_timezone_set('Asia/Kolkata');
 $fileExt = $_POST['fileExt'];
 if($fileExt=='jpeg'){
@@ -25,9 +22,9 @@ if (file_exists($imagePath)) {
 	};
 }
 //from frontend
-$img = $_POST['croppedImage'];
+$croppedImageDataURL = $_POST['croppedImageFile'];
 // remove data url code
-$img = str_replace('data:image/'.$_POST['fileExt'].';base64,', '', $img);
+$img = str_replace('data:image/'.$_POST['fileExt'].';base64,', '', $croppedImageDataURL);
 // replace space to +
 $img = str_replace(' ', '+', $img);
 //decode base64 code

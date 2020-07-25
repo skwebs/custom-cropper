@@ -9,7 +9,7 @@
 	<meta name="theme-color" content="#09407f">
 	<link href="assets/libs/css/bootstrap.min.css" rel="stylesheet">
 	<link href="assets/libs/css/cropper.css" rel="stylesheet">
-	<link href="assets/css/style.css" rel="stylesheet">
+	<link href="assets/css/style.css?v1" rel="stylesheet">
 	<style type="text/css"></style>
 </head>
 <!-- Wrap the image or canvas element with a block element (container) -->
@@ -19,13 +19,14 @@
 		<h3 class="my-5 text-primary px-3 py-2">Crop image and upload.</h3>
 		<div class="row">
 			<div class="col-md-6">
-				<div class="img-container border"> <img id="image" src="assets/img/select-an-image.jpg" alt="your image" /> </div>
-				<br>
-				<div class="custom-file">
-					<input type="file" class="custom-file-input" id="imgInp" accept="image/*">
-					<label class="custom-file-label" for="imgInp">Choose image</label>
+				<div class="img-container border"> 
+					<img id="image-container" src="assets/img/select-an-image.jpg" alt="your image" /> 
 				</div>
+				<div class="custom-file my-4">
+					<input type="file" class="custom-file-input" id="image-input" accept="image/jpeg, image/png">
+					<label class="custom-file-label" for="image-input">Choose image</label>
 				<p id="file_size"></p>
+				</div>
 				
 				<div class="d-flex py-2">
 					<button class="editImage btn btn-warning d-none" onclick="editImage()">Edit Image</button>
@@ -38,15 +39,15 @@
 			</div>
 		</div>
 	</div>
-	<div class="processing d-none"> <img src="assets/img/loader.gif">
+	<div class="processing d-none"> 
+		<img src="assets/img/loader.gif">
 		<p>Processing...</p>
 	</div>
 	<script src="assets/libs/js/jquery.min.js"></script>
 	<!-- jQuery is required -->
-	<script src="assets/libs/js/cropper.js"></script>
-	<script src="assets/js/script.js?v1.1"></script>
-	<script type="text/javascript">
-	</script>
+	<script src="assets/libs/js/cropper-4.1.0.min.js"></script>
+	<script src="assets/js/main.js?v1"></script>
+
 </body>
 
 </html>
