@@ -1,16 +1,19 @@
 "use strict";
 // 
 var imageContainer = $('#image-container');
+var imageInput = document.getElementById('image-input');
 var processing = $(".processing");
 var processingText = $(".processing p");
 var fileName = $("#file_name");
 var fileSize = $("#file_size");
 var fileLabel = $('.custom-file-label');
+var cropBtn = $("#cropBtn");
+var response = $("#response");
 var mimeType = '';
-var imageInput = document.getElementById('image-input');
+
 imageInput.addEventListener('change', (event) => {
-	processing.removeClass('d-none').addClass('d-flex');
-	processingText.html('image loading for crop...');
+	cancelEdit();
+	showProcees('image loading for crop...');
 	console.time('FileOpen');
 	var files = event.target.files;
 	if (files && files[0]) {
@@ -19,8 +22,8 @@ imageInput.addEventListener('change', (event) => {
 		fileReaderForDataURL.onloadend = function(e) {
 			imageContainer.attr('src', e.target.result);
 			editImage();
-			processingText.html('');
-			processing.removeClass('d-flex').addClass('d-none')
+			hideProcess();
+			console.log(e.target.result)
 		};
 		fileReaderForDataURL.readAsDataURL(file);
 		var fileReaderForArrayBuffer = new FileReader();
@@ -75,6 +78,7 @@ var cropperOptions = {
 };
 
 function crop() {
+	console.time("Image cropped.")
 	var cropcanvas = imageContainer.cropper('getCroppedCanvas', {
 		width: 600,
 		height: 690,
@@ -89,43 +93,41 @@ function crop() {
 			fileExt : mimeType.slice(6)
 		},
 		beforeSend: ()=> {
-			processing.removeClass('d-none').addClass('d-flex');
-			processingText.html('image cropping and uploading ...');
-			//$('#container--box').css("opacity", ".1");
-			//$('#process').css("display", "block")
+			showProcees('image cropping and uploading ...');
 		},
 		success: (result, status, xhr) => {
-			//$("#cropBox").removeClass('d-block').addClass('d-none');
-			//$("#response").removeClass('d-none').addClass('d-block');
-			processing.removeClass('d-flex').addClass('d-none');
+			console.timeEnd("Image cropped.")
 			if (status == "success") {
+				hideProcess();
 				cancelEdit();
-				$(".processing p").html('');
-				$("#response").html(result)
+				response.html(result)
 			}
-			/*$('#process').css("display", "none");
-			$('#container--box').css("opacity", "1");
-			var res = ("Result :" + result);
-			var stat = ("Status :" + status);
-			var rt = ("xhr :" + xhr.responseText)*/
 		},
 		error:(res,stat)=> {
-			$('#process').css("display", "none");
-			$('#container--box').css("opacity", "1");
-			$("#response").html(res + "<br>" + stat)
+			hideProcess();
+			cancelEdit();
+			response.html(res + "<br>" + stat)
 		}
 	})
 }
 
 function editImage() {
 	imageContainer.cropper(cropperOptions);
-	$("#cropBtn").removeClass('d-none').addClass('d-block')
+	cropBtn.removeClass('d-none').addClass('d-block')
 }
 
 function cancelEdit() {
 	imageContainer.cropper('destroy');
-	imageContainer.attr('src', './assets/img/select-an-image.jpg');
-	$('.custom-file-label').html("Choose image");
-	$("#file_size").html("");
-	$("#cropBtn").removeClass('d-block').addClass('d-none')
+	cropBtn.removeClass('d-block').addClass('d-none')
+//	imageContainer.attr('src', './assets/img/select-an-image.jpg');
+//	fileLabel.html("Choose image");
+//	fileSize.html("");
+}
+function showProcees(msg){
+	processing.removeClass('d-none').addClass('d-flex');
+	processingText.html(msg);
+}
+function hideProcess(){
+	processingText.html('');
+	processing.removeClass('d-flex').addClass('d-none');
 }
