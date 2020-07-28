@@ -60,15 +60,11 @@
 		$data['imgPath'] = str_replace('"\"','',$imagePath);
 		$data['msg'] = 'Image saved successfully!';
 		$data["imgName"] = $croppedImageName;
-		//echo $croppedImageName; 
-		//echo '<img src="'.$imagePath.'" >';
-		//echo $imagePath;
 	} else {
 		//	if image didn't created 
 		$data['success'] = false;
 		$data['msg'] = 'Image did not create.';
-		//echo 'Image did not create.';
 	};
-	//echo "<script>alert('Your image saved with name : ".$croppedImageName." in database');</script>";
+	//	all array data encode into json for client
 	echo json_encode($data);
 	
