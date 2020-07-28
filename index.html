@@ -9,57 +9,47 @@
 	<meta name="theme-color" content="#09407f">
 	<link href="assets/libs/css/bootstrap.min.css" rel="stylesheet">
 	<link href="assets/libs/css/cropper.css" rel="stylesheet">
-	<link href="assets/css/style.css?v1" rel="stylesheet">
-</head>
+	<link href="assets/css/style.css?v1" rel="stylesheet"> </head>
 <!-- Wrap the image or canvas element with a block element (container) -->
 
 <body class="bg-light">
-	<div class="container py-4" >
-		<div class="row" >
-		<div class="col-md-6 mx-auto" >
-		<section id="img_for_crop_section" class="text-center" >
-		<h1 class="text-center bg-primary text-light px-4 py-2 rounded" >Crop image</h1>
-			<div class="img_wrapper border">
-				<img id="img_for_crop" src="assets/img/select-an-image.jpg" alt="your image" />
+	<div class="container py-4">
+		<div class="row">
+			<div class="col-md-6 mx-auto">
+				<section id="img_for_crop_section" class="text-center">
+					<h1 class="text-center bg-primary text-light px-4 py-2 rounded">Crop image</h1>
+					<div class="img_wrapper border"> 
+						<img id="img_for_crop" src="assets/img/select-an-image.jpg" alt="your image" /> 
+					</div>
+					<div class="py-2 mx-auto"> 
+						<span id="file_name"></span>
+						<br>
+						<span id="file_size"></span> 
+					</div>
+					<div class="d-flex justify-content-center align-item-center">
+						<button id="cropBtn" class="d-none btn btn-primary mx-3" onclick="crop()">Crop Image</button>
+						<button id="cancelBtn" class="btn btn-secondary mx-3" onclick="cancelCrop()">Cancel</button>
+					</div>
+				</section>
+				<section id="img_preview_section">
+					<div id="response" class="d-none alert alert-success alert-dismissible"> </div>
+					<div class="my-4 img_wrapper border">
+						<input type="file" class="sr-only" id="image-input" accept="image/jpeg, image/png">
+						<label class="" for="image-input"> 
+							<img id="label_image" src="assets/img/select-an-image.jpg" alt="select image" /> 
+						</label>
+					</div>
+				</section>
 			</div>
-			<div class="py-2 mx-auto" >
-				<span id="file_name"></span><br>
-				<span id="file_size"></span>
-			</div>
-			<div class="d-flex justify-content-center align-item-center">
-				<button id="cropBtn" class="d-none btn btn-primary mx-3" onclick="crop()">Crop Image</button>
-				<button id="cancelBtn" class="btn btn-secondary mx-3" onclick="cancelCrop()">Cancel</button>
-			</div>
-			
-		</section>
-			
-		<section id="img_preview_section" >
-			
-			<div id="response" class="d-none alert alert-success alert-dismissible" >
-			</div>
-			
-			<div class="my-4 img_wrapper border">
-				<input type="file" class="sr-only" id="image-input" accept="image/jpeg, image/png">
-				<label class="" for="image-input">
-					<img id="label_image" src="assets/img/select-an-image.jpg" alt="select image" />
-				</label>
-			</div>
-			
-		</section>
-		</div>
 		</div>
 	</div>
-				
-				
-	<div class="processing d-none">
-		<img src="assets/img/loader.gif">
+	<div class="processing d-none"> <img src="assets/img/loader.gif">
 		<p>Processing...</p>
 	</div>
 	<script src="assets/libs/js/jquery.min.js"></script>
 	<script src="assets/libs/js/bootstrap.bundle.min.js"></script>
 	<script src="assets/libs/js/cropper-4.1.0.min.js"></script>
 	<script src="./assets/js/main.js"></script>
-
 </body>
 
 </html>
