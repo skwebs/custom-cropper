@@ -1,6 +1,8 @@
 "use strict";
 // 
-var imageContainer = $('#image-container');
+var imgForCropSection = $('#img_for_crop_section');
+var imgForCrop = $('#img_for_crop');
+var imgPreviewSection = $("#img_preview_section");
 var imageInput = document.getElementById('image-input');
 var processing = $(".processing");
 var processingText = $(".processing p");
@@ -8,9 +10,12 @@ var fileName = $("#file_name");
 var fileSize = $("#file_size");
 var fileLabel = $('.custom-file-label');
 var cropBtn = $("#cropBtn");
+//	var cancelBtn = $(".cancelEdit");
+var labelImg = $("#label_image");
 var response = $("#response");
 var mimeType = '';
 
+//	 IMAGE LOAD SECTION ================================
 imageInput.addEventListener('change', (event) => {
 	cancelEdit();
 	showProcees('image loading for crop...');
@@ -20,9 +25,14 @@ imageInput.addEventListener('change', (event) => {
 		var file = files[0];
 		var fileReaderForDataURL = new FileReader();
 		fileReaderForDataURL.onloadend = function(e) {
-			imageContainer.attr('src', e.target.result);
-			editImage();
-			hideProcess();
+			imgForCrop.attr('src', e.target.result);
+			
+			imgPreviewSection.fadeOut(()=>{
+				imgForCropSection.fadeIn();
+				editImage();
+				hideProcess();
+			});
+			
 			console.log(e.target.result)
 		};
 		fileReaderForDataURL.readAsDataURL(file);
@@ -46,6 +56,8 @@ imageInput.addEventListener('change', (event) => {
 		fileReaderForArrayBuffer.readAsArrayBuffer(BLOB)
 	}
 });
+
+//	IMAGE MIME SECTION ==================================
 var checkMimeType = (signature) => {
 	switch (signature) {
 		case '89504E47':
@@ -64,6 +76,8 @@ var checkMimeType = (signature) => {
 			return 'Unknown filetype'
 	}
 };
+
+//	CROPPER PLUGIN SECTION =========================
 var cropperOptions = {
 	viewMode: 3,
 	dragMode: 'move',
@@ -79,7 +93,7 @@ var cropperOptions = {
 
 function crop() {
 	console.time("Image cropped.")
-	var cropcanvas = imageContainer.cropper('getCroppedCanvas', {
+	var cropCanvas = imgForCrop.cropper('getCroppedCanvas', {
 		width: 600,
 		height: 690,
 		fillColor: '#fff',
@@ -87,23 +101,37 @@ function crop() {
 	}).toDataURL(mimeType);
 	$.ajax({
 		type: 'POST',
-		url: 'uploadData.php',
+		url: 'upload.php',
+		dataType:'json', // what type of data do we expect back from the server
+		encode 	: true, 
 		data: {
-			croppedImageFile : cropcanvas,
-			fileExt : mimeType.slice(6)
+			croppedImageFile: cropCanvas,
+			fileExt: mimeType.slice(6)
 		},
-		beforeSend: ()=> {
+		beforeSend: () => {
 			showProcees('image cropping and uploading ...');
 		},
-		success: (result, status, xhr) => {
+		success: (res) => {
 			console.timeEnd("Image cropped.")
-			if (status == "success") {
+			console.log('response:'+JSON.stringify(res))
+			imgForCropSection.fadeOut(()=>{
+				imgPreviewSection.fadeIn();
 				hideProcess();
 				cancelEdit();
-				response.html(result)
+			});
+			fileLabel.html("Choose image");
+			
+			if(res.success){
+				//	change image of label image
+				labelImg.attr("src",res.imgPath);
+				response.removeClass("alert-danger").addClass("alert-success").html(res.msg+"<br/>"+res.imgName)
+				
+				//	let imgPreview = new Image(300,345);imgPreview.src = res.imgPath;document.getElementById("response").appendChild(imgPreview);
+			}else{
+				response.removeClass("alert-success").addClass("alert-danger").html(res.msg)
 			}
 		},
-		error:(res,stat)=> {
+		error: (res, stat) => {
 			hideProcess();
 			cancelEdit();
 			response.html(res + "<br>" + stat)
@@ -111,23 +139,28 @@ function crop() {
 	})
 }
 
+//	OTHER SUPPORTING FUNCTIONS ==================================
 function editImage() {
-	imageContainer.cropper(cropperOptions);
+	imgForCrop.cropper(cropperOptions);
 	cropBtn.removeClass('d-none').addClass('d-block')
+	//cancelBtn.removeClass('d-none').addClass('d-block')
 }
 
 function cancelEdit() {
-	imageContainer.cropper('destroy');
+	imgForCrop.cropper('destroy');
 	cropBtn.removeClass('d-block').addClass('d-none')
-//	imageContainer.attr('src', './assets/img/select-an-image.jpg');
-//	fileLabel.html("Choose image");
-//	fileSize.html("");
+//	cancelBtn.removeClass('d-block').addClass('d-none')
+	imgForCrop.attr('src', './assets/img/select-an-image.jpg');
+	//	fileLabel.html("Choose image");
+	//	fileSize.html("");
 }
-function showProcees(msg){
+
+function showProcees(msg) {
 	processing.removeClass('d-none').addClass('d-flex');
 	processingText.html(msg);
 }
-function hideProcess(){
+
+function hideProcess() {
 	processingText.html('');
 	processing.removeClass('d-flex').addClass('d-none');
 }
