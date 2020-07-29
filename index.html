@@ -9,20 +9,9 @@
 	<meta name="theme-color" content="#09407f">
 	<link href="assets/libs/css/bootstrap.min.css" rel="stylesheet">
 	<link href="assets/libs/css/cropper.css" rel="stylesheet">
-	<link href="assets/css/style.css?v1" rel="stylesheet"> 
+	<link href="assets/css/style.css?v1.2" rel="stylesheet"> 
 	<style type="text/css">
-	#img_preview_section label{
-	position:relative;
-	}
-	#img_preview_section label:before{
-		content:"Change image";	
-		position:absolute;
-		background:rgba(0,0,0,0.4);
-		bottom:0;left:0;right:0;
-		color:#ff0;
-		padding:5px;
-		text-align:center;
-	}
+	
 	</style>
 </head>
 <body class="bg-light">
@@ -45,8 +34,9 @@
 					</div>
 				</section>
 				<section id="img_preview_section">
-					<div class="my-4 img_wrapper border">
-						<label class="" for="image-input"> 
+					<div id="response" class="d-none alert alert-success alert-dismissible"> </div>
+					<div class="my-4 img_wrapper">
+						<label for="image-input"> 
 							<img id="label_image" src="assets/img/select-an-image.jpg" alt="select image" /> 
 						</label>
 						<input type="file" class="sr-only" id="image-input" accept="image/jpeg, image/png">
