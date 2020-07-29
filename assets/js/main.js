@@ -16,7 +16,7 @@ var response = $("#response");
 var mimeType = '';
 
 //	 IMAGE LOAD SECTION ================================
-imageInput.onchange = (event) => {
+imageInput.addEventListener("change", (event) => {
     cancelEdit();
     
     console.time('FileOpen');
@@ -63,7 +63,7 @@ imageInput.onchange = (event) => {
         var BLOB = file.slice(0, 4);
         fileReaderForArrayBuffer.readAsArrayBuffer(BLOB)
     }
-};
+}); // load image for crop ended here.
 
 //	IMAGE MIME SECTION ==================================
 var checkMimeType = (signature) => {
