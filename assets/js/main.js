@@ -1,22 +1,22 @@
 "use strict";
 // 
-var imgForCropSection = $('#img_for_crop_section');
-var imgForCrop = $('#img_for_crop');
-var imgPreviewSection = $("#img_preview_section");
 var imageInput = document.getElementById('image-input');
-var processing = $(".processing");
-var processingText = $(".processing p");
+
+var cropBtn = $("#cropBtn");
+var fileLabel = $('.custom-file-label');
 var fileName = $("#file_name");
 var fileSize = $("#file_size");
-var fileLabel = $('.custom-file-label');
-var cropBtn = $("#cropBtn");
-//	var cancelBtn = $(".cancelEdit");
+var imgForCrop = $('#img_for_crop');
+var imgForCropSection = $('#img_for_crop_section');
+var imgPreviewSection = $("#img_preview_section");
 var labelImg = $("#label_image");
-var response = $("#response");
 var mimeType = '';
+var processing = $(".processing");
+var processingText = $(".processing p");
+var response = $("#response");
 
 //	 IMAGE LOAD SECTION ================================
-imageInput.onchange = (event) => {
+imageInput.addEventListener("change", (event) => {
     cancelEdit();
     
     console.time('FileOpen');
@@ -63,7 +63,7 @@ imageInput.onchange = (event) => {
         var BLOB = file.slice(0, 4);
         fileReaderForArrayBuffer.readAsArrayBuffer(BLOB)
     }
-};
+}); // load image for crop ended here.
 
 //	IMAGE MIME SECTION ==================================
 var checkMimeType = (signature) => {

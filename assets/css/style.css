@@ -29,12 +29,6 @@
 	border: thin solid #000;
 }
 
-cropBtn {
-	margin: 0 40%;
-	padding: 5px 10px;
-	text-align: center;
-}
-
 .processing {
 	position: fixed;
 	display: flex;
@@ -58,11 +52,6 @@ cropBtn {
 	margin-top: 20px;
 }
 
-file_property span {
-	display: inline-block;
-	white-space: nowrap;
-}
-
 #change_image span {
 	white-space: nowrap;
 	color: #000;
@@ -72,11 +61,22 @@ file_property span {
 	display: none;
 }
 
-#label_image:active {
-	transition: all 0.1s;
+#img_preview_section label{
+transition: all 0.1s;
+position:relative;
 }
 
-#label_image:active {
+#img_preview_section label:before{
+	content:"Change image";	
+	position:absolute;
+	background:rgba(0,0,0,0.4);
+	bottom:0;left:0;right:0;
+	color:#ff0;
+	padding:5px;
+	text-align:center;
+}
+
+#image_preview_section:active {
 	box-shadow: 5px 5px 18px rgba(0, 0, 0, 0.125);
 	transform: translate3d(-5px, -2px, 5px);
 }
