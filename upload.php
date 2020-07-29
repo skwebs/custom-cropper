@@ -57,7 +57,7 @@
 	if($image){
 		//	if image created 
 		$data['success'] = true;
-		$data['imgPath'] = str_replace('"\"','',$imagePath);
+		$data['imgPath'] = $imagePath; 
 		$data['msg'] = 'Image saved successfully!';
 		$data["imgName"] = $croppedImageName;
 	} else {

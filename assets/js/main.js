@@ -16,46 +16,54 @@ var response = $("#response");
 var mimeType = '';
 
 //	 IMAGE LOAD SECTION ================================
-imageInput.addEventListener('change', (event) => {
+imageInput.onchange = (event) => {
     cancelEdit();
-    showProcees('image loading for crop...');
+    
     console.time('FileOpen');
+    
     var files = event.target.files;
-    if (files && files[0]) {
+    if (files && files.length > 0) {
         var file = files[0];
+        // show file details
+        fileLabel.html(file.name);
+        fileName.html("File: " + file.name);
+        fileSize.html("Size: " + ((file.size / 1024).toFixed(2)) + "KB;&nbsp&nbsp");
+        
+        showProcees('image loading for crop...');
+        
         var fileReaderForDataURL = new FileReader();
         fileReaderForDataURL.onloadend = function(e) {
             imgForCrop.attr('src', e.target.result);
+			// console image url data
+			console.log(e.target.result)
 
             imgPreviewSection.fadeOut(() => {
                 imgForCropSection.fadeIn();
                 editImage();
                 hideProcess();
             });
-
-            console.log(e.target.result)
         };
         fileReaderForDataURL.readAsDataURL(file);
+        
         var fileReaderForArrayBuffer = new FileReader();
         fileReaderForArrayBuffer.onloadend = function(evt) {
             if (evt.target.readyState === FileReader.DONE) {
                 var uInt8Array = new Uint8Array(evt.target.result);
                 let bytes = [];
+                
                 uInt8Array.forEach((byte) => {
                     bytes.push(byte.toString(16))
                 });
+                
                 var hex = bytes.join('').toUpperCase();
                 mimeType = checkMimeType(hex);
             }
             console.timeEnd('FileOpen')
         };
-        fileLabel.html(file.name);
-        fileName.html("File: " + file.name);
-        fileSize.html("Size: " + ((file.size / 1024).toFixed(2)) + "KB;&nbsp&nbsp");
         var BLOB = file.slice(0, 4);
         fileReaderForArrayBuffer.readAsArrayBuffer(BLOB)
     }
-});
+};
 
 //	IMAGE MIME SECTION ==================================
 var checkMimeType = (signature) => {
@@ -92,20 +100,26 @@ var cropperOptions = {
 };
 
 function crop() {
-    console.time("Image cropped.")
     var cropCanvas = imgForCrop.cropper('getCroppedCanvas', {
         width: 600,
         height: 690,
         fillColor: '#fff',
         imageSmoothingQuality: 'high'
-    }).toDataURL(mimeType);
+    });
+    
+    // convert cropped image into data url
+    var cropImgURL = cropCanvas.toDataURL(mimeType);
+    
+    // convert cropped image into blob file
+    cropCanvas.toBlob((blob)=>{console.log("cropped image blob : "+blob);},mimeType);
+    
     $.ajax({
         type: 'POST',
         url: 'upload.php',
         dataType: 'json', // what type of data do we expect back from the server
         encode: true,
         data: {
-            croppedImageFile: cropCanvas,
+            croppedImageFile: cropImgURL,
             fileExt: mimeType.slice(6)
         },
         beforeSend: () => {
@@ -113,6 +127,7 @@ function crop() {
         },
         success: (res) => {
             console.timeEnd("Image cropped.")
+            // console sever response
             console.log('response:' + JSON.stringify(res))
             imgForCropSection.fadeOut(() => {
                 imgPreviewSection.fadeIn();
@@ -120,7 +135,8 @@ function crop() {
                 cancelEdit();
             });
             fileLabel.html("Choose image");
-
+			imageInput.value = "";
+			
             if (res.success) {
                 //	change image of label image
                 labelImg.attr("src", res.imgPath);
@@ -173,5 +189,5 @@ function cancelCrop() {
         hideProcess();
         cancelEdit();
     });
-
+    imageInput.value = "";
 }
